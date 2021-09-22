@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { CodeSelector } from "./CodeSelector";
 
 type ModeState = {
   mode: "Scale" | "Code";
@@ -35,6 +36,7 @@ export const ScaleViewer = () => {
       {mode.mode === "Code" && (
         <div>
           <div>{mode.mode}</div>
+          <CodeSelector></CodeSelector>
         </div>
       )}
     </div>
