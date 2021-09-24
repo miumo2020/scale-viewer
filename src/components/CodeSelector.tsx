@@ -1,51 +1,45 @@
 import React, { useState } from "react";
 
-type Root = "C" | "Db" | "D" | "Eb" | "E" | "F" | "Gb" | "G";
-
-type RootState = {
-  root: Root;
-};
+const Root = {
+  C: "C",
+  Db: "Db",
+  D: "D",
+  Eb: "Eb",
+  E: "E",
+  F: "F",
+  Gb: "Gb",
+  G: "G",
+  Ab: "Ab",
+  A: "A",
+  Bb: "Bb",
+  B: "B",
+} as const;
+type RootState = typeof Root[keyof typeof Root];
 
 export const CodeSelector = () => {
-  const [root, setRoot] = useState<RootState>({ root: "C" });
+  const [root, setRoot] = useState<RootState>("C");
   const handleChange = (e: React.FormEvent<HTMLSelectElement>) => {
-    // console.log(e.target.value);
-    let a = e.currentTarget.value as Root;
-    setRoot({ root: e.currentTarget.value as Root });
-    console.log(typeof a, a);
-    // console.log(typeof root.root);
+    setRoot(e.currentTarget.value as RootState);
   };
 
-  // const C: Root = "C";
-  // const Db: Root = "Db";
-  const D: Root = "D";
-  const Eb: Root = "Eb";
-
-  // let a: Root = "C#";
-  // console.log(a);
-
-  let data = [
-    { value: "C", label: "C" },
-    { value: "C#", label: "C#" },
-    { value: D, label: "D" },
-    { value: Eb, label: "D#" },
-  ];
+  const rootOptions = () => {
+    const options = [];
+    for (let r in Root) {
+      options.push(
+        <option value={r} key={r}>
+          {r}
+        </option>
+      );
+    }
+    return options;
+  };
 
   return (
     <>
       <select onChange={(e) => handleChange(e)}>
-        {data.map((d) => (
-          <option
-            value={d.value}
-            key={d.value}
-            // onChange={(e) => setRoot({ root: e.target.value })}
-            // onChange={(e) => setRoot({ root: e.currentTarget.value })}
-          >
-            {d.label}
-          </option>
-        ))}
+        {rootOptions()}
       </select>
-      <div>{root.root}</div>
+      <div>{root}</div>
     </>
   );
 };
