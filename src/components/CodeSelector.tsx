@@ -22,7 +22,7 @@ export const CodeSelector = () => {
     setRoot(e.currentTarget.value as RootState);
   };
 
-  const rootOptions = () => {
+  const selectRoot = () => {
     const options = [];
     for (let r in Root) {
       options.push(
@@ -31,14 +31,16 @@ export const CodeSelector = () => {
         </option>
       );
     }
-    return options;
+    return (
+      <>
+        <select onChange={(e) => handleChange(e)}>{options}</select>
+      </>
+    );
   };
 
   return (
     <>
-      <select onChange={(e) => handleChange(e)}>
-        {rootOptions()}
-      </select>
+      {selectRoot()}
       <div>{root}</div>
     </>
   );

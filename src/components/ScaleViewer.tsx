@@ -36,7 +36,7 @@ export const ScaleViewer = () => {
       {mode.mode === "Code" && (
         <div>
           <div>{mode.mode}</div>
-          <CodeSelector></CodeSelector>
+          <CodeSelector/>
         </div>
       )}
     </div>
