@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { CodeSelector } from "./CodeSelector";
+import { ChordSelector } from "./ChordSelector";
 
 type ModeState = {
-  mode: "Scale" | "Code";
+  mode: "Scale" | "Chord";
 };
 
 type State = {
@@ -25,7 +25,7 @@ export const ScaleViewer = () => {
       <div>Scale Viewer</div>
       <div>tuning: {state.tuning.map((t) => t + " ")}</div>
       <button onClick={() => setMode({ mode: "Scale" })}>ScaleMode</button>
-      <button onClick={() => setMode({ mode: "Code" })}>CodeMode</button>
+      <button onClick={() => setMode({ mode: "Chord" })}>ChordMode</button>
 
       {mode.mode === "Scale" && (
         <div>
@@ -33,10 +33,10 @@ export const ScaleViewer = () => {
         </div>
       )}
 
-      {mode.mode === "Code" && (
+      {mode.mode === "Chord" && (
         <div>
           <div>{mode.mode}</div>
-          <CodeSelector/>
+          <ChordSelector/>
         </div>
       )}
     </div>

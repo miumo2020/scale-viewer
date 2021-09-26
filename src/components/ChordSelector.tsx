@@ -16,7 +16,7 @@ const Root = {
 } as const;
 type RootState = typeof Root[keyof typeof Root];
 
-export const CodeSelector = () => {
+export const ChordSelector = () => {
   const [root, setRoot] = useState<RootState>("C");
   const handleChange = (e: React.FormEvent<HTMLSelectElement>) => {
     setRoot(e.currentTarget.value as RootState);
