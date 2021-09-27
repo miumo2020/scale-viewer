@@ -16,41 +16,47 @@ const Root = {
 } as const;
 type RootState = typeof Root[keyof typeof Root];
 
-const Chord: { [name: string]: string } = {
-  maj: "0,4,7",
-  m: "0,3,7",
-  "(b5)": "0,4,6",
-  dim: "0,3,6",
-  aug: "0,4,8",
-  sus4: "0,5,7",
-  sus2: "0,2,7",
-  "6": "0,4,7,9",
-  m6: "0,3,7,9",
-  "7": "0,4,7,10",
-  m7: "0,3,7,10",
-  M7: "0,4,7,11",
-  mM7: "0,3,7,11",
-  "7(b5)": "0,4,6,10",
-  "m7(b5)": "0,3,6,10",
-  "M7(b5)": "0,4,6,11",
-  "mM7(b5)": "0,3,6,11",
-  "7sus4": "0,5,7,10",
-  dim7: "0,3,6,9",
-  add9: "0,2,4,7",
-  "m(add9)": "0,2,3,7",
-  add4: "0,4,5,7",
-  aug7: "0,4,8,10",
-} as const;
-type ChordState = typeof Chord[keyof typeof Chord];
+type Chord = {
+  name: string;
+  chord: number[];
+};
+
+const ChordList: Chord[] = [
+  { name: "maj", chord: [0, 4, 7] },
+  { name: "m", chord: [0, 3, 7] },
+  { name: "(b5)", chord: [0, 4, 6] },
+  { name: "dim", chord: [0, 3, 6] },
+  { name: "aug", chord: [0, 4, 8] },
+  { name: "sus4", chord: [0, 5, 7] },
+  { name: "sus2", chord: [0, 2, 7] },
+  { name: "6", chord: [0, 4, 7, 9] },
+  { name: "m6", chord: [0, 3, 7, 9] },
+  { name: "7", chord: [0, 4, 7, 10] },
+  { name: "m7", chord: [0, 3, 7, 10] },
+  { name: "M7", chord: [0, 4, 7, 11] },
+  { name: "mM7", chord: [0, 3, 7, 11] },
+  { name: "7(b5)", chord: [0, 4, 6, 10] },
+  { name: "m7(b5)", chord: [0, 3, 6, 10] },
+  { name: "M7(b5)", chord: [0, 4, 6, 11] },
+  { name: "mM7(b5)", chord: [0, 3, 6, 11] },
+  { name: "7sus4", chord: [0, 5, 7, 10] },
+  { name: "dim7", chord: [0, 3, 6, 9] },
+  { name: "add9", chord: [0, 2, 4, 7] },
+  { name: "m(add9)", chord: [0, 2, 3, 7] },
+  { name: "add4", chord: [0, 4, 5, 7] },
+  { name: "aug7", chord: [0, 4, 8, 10] },
+];
 
 export const ChordSelector = () => {
   const [root, setRoot] = useState<RootState>("C");
   const handleChange = (e: React.FormEvent<HTMLSelectElement>) => {
     setRoot(e.currentTarget.value as RootState);
   };
-  const [chord, setChord] = useState<ChordState>();
+  const [chord, setChord] = useState<Chord>(ChordList[0]);
   const handleChangeChord = (e: React.FormEvent<HTMLSelectElement>) => {
-    setChord(e.currentTarget.value as ChordState);
+    // setChord(e.currentTarget.value as ChordState);
+    let selected = ChordList.find(chord => e.currentTarget.value === chord.name);
+    if (selected !== undefined) setChord(selected);
   };
 
   const selectRoot = () => {
@@ -70,17 +76,15 @@ export const ChordSelector = () => {
   };
 
   const selectChord = () => {
-    const options = [];
-    for (let c in Chord) {
-      options.push(
-        <option value={c} key={c}>
-          {c}
-        </option>
-      );
-    }
     return (
       <>
-        <select onChange={(e) => handleChangeChord(e)}>{options}</select>
+        <select onChange={(e) => handleChangeChord(e)}>
+          {ChordList.map((chord) => (
+            <option value={chord.name} key={chord.name}>
+              {chord.name}
+            </option>
+          ))}
+        </select>
       </>
     );
   };
@@ -91,7 +95,7 @@ export const ChordSelector = () => {
       {selectChord()}
       <div>
         {root}
-        {chord}
+        {chord.name}
       </div>
     </>
   );
