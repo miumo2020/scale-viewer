@@ -54,7 +54,6 @@ export const ChordSelector = () => {
   };
   const [chord, setChord] = useState<Chord>(ChordList[0]);
   const handleChangeChord = (e: React.FormEvent<HTMLSelectElement>) => {
-    // setChord(e.currentTarget.value as ChordState);
     let selected = ChordList.find(chord => e.currentTarget.value === chord.name);
     if (selected !== undefined) setChord(selected);
   };

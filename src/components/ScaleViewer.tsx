@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ChordSelector } from "./ChordSelector";
+import {FingerBoard } from "./FingerBoard"
 
 type ModeState = {
   mode: "Scale" | "Chord";
@@ -24,6 +25,7 @@ export const ScaleViewer = () => {
     <div>
       <div>Scale Viewer</div>
       <div>tuning: {state.tuning.map((t) => t + " ")}</div>
+      <FingerBoard/>
       <button onClick={() => setMode({ mode: "Scale" })}>ScaleMode</button>
       <button onClick={() => setMode({ mode: "Chord" })}>ChordMode</button>
 
