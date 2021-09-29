@@ -1,19 +1,3 @@
-export const Root = {
-  C: "C",
-  Db: "Db",
-  D: "D",
-  Eb: "Eb",
-  E: "E",
-  F: "F",
-  Gb: "Gb",
-  G: "G",
-  Ab: "Ab",
-  A: "A",
-  Bb: "Bb",
-  B: "B",
-} as const;
-export type RootState = typeof Root[keyof typeof Root];
-
 export type Chord = {
   name: string;
   chord: number[];
