@@ -1,6 +1,17 @@
-// import React, { useState } from "react";
+import React from "react";
+import { Chord } from "./Constants";
 
-export const FingerBoard = () => {
+type ChordProps = {
+  root: number;
+  chord: Chord;
+};
+
+type FingerBoardProps = {
+  tuning: number[];
+  chordprops: ChordProps;
+};
+
+export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
   return (
     <svg width="518" height="200" viewBox="0 0 518 200">
       <rect x="30" y="15" width="8" height="152" fill="#888"></rect>
