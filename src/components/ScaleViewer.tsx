@@ -51,7 +51,7 @@ export const ScaleViewer = () => {
     <>
       <div>Scale Viewer</div>
       <div>
-        tuning: {settings.tuning.map((t) => convertNumberToNote(t) + " ")}
+        tuning: {settings.tuning.slice().reverse().map((t) => convertNumberToNote(t) + " ")}
       </div>
       <FingerBoard tuning={settings.tuning} chordprops={chord} />
       <button onClick={() => setMode({ mode: "Scale" })}>ScaleMode</button>

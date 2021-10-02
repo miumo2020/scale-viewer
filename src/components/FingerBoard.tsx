@@ -12,30 +12,102 @@ type FingerBoardProps = {
   chordprops: ChordProps;
 };
 
+type Note = {
+  num: number; //  0:C, 1:C#, ... , 11:B
+  degree: number; //  0:P1, 1:m2, ... , 11:M7
+};
+
 export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
-  let boardstate = [];
+  let boardstate: Array<(Note | undefined)[]> = [];
   for (let string = 0; string < 6; string++) {
-    let s = [];
+    let stringstate: (Note | undefined)[] = [];
     for (let flet = 0; flet < 16; flet++) {
       let note_num = (props.tuning[string] + flet) % 12;
-      if (
-        props.chordprops.chord.interval.find(
-          (c) => (c + props.chordprops.root) % 12 === note_num
-        ) !== undefined
-      ) {
-        s.push(convertNumberToNote(note_num));
+      let note_degree = props.chordprops.chord.interval.find(
+        (c) => (c + props.chordprops.root) % 12 === note_num
+      );
+      if (note_degree !== undefined) {
+        let note: Note = { num: note_num, degree: note_degree };
+        stringstate.push(note);
       } else {
-        s.push("");
+        stringstate.push(undefined);
       }
     }
-    boardstate.push(s);
+    boardstate.push(stringstate);
   }
-  console.log(boardstate);
-  console.log(
-    props.chordprops.root,
-    props.chordprops.chord.name,
-    props.chordprops.chord.interval
-  );
+
+  const markNotes = () => {
+    let marks = [];
+
+    // flet 0 mark
+    for (let string = 0; string < 6; string++) {
+      let note_num = boardstate[string][0]?.num;
+      if (note_num === undefined) continue;
+      marks.push(
+        <circle
+          key={"mark-circle-string-" + string.toString() + "_flet-0"}
+          cx="15"
+          cy={30 * string + 16}
+          r="10"
+          fill="#e74c3c"
+        ></circle>
+      );
+      marks.push(
+        <text
+          key={"mark-text-string-" + string.toString() + "_flet-0"}
+          x="15"
+          y={30 * string + 16}
+          fontSize="12"
+          fill="#FFF"
+          textAnchor="middle"
+          dominantBaseline="central"
+        >
+          {convertNumberToNote(note_num)}
+        </text>
+      );
+    }
+
+    // flet 1 ~ 15 mark
+    for (let string = 0; string < 6; string++) {
+      for (let flet = 1; flet < 15; flet++) {
+        let note_num = boardstate[string][flet]?.num;
+        if (note_num === undefined) continue;
+        marks.push(
+          <circle
+            key={
+              "mark-circle-string-" +
+              string.toString() +
+              "_flet-" +
+              flet.toString()
+            }
+            cx={32 * flet + 21}
+            cy={30 * string + 16}
+            r="10"
+            fill="#e74c3c"
+          ></circle>
+        );
+        marks.push(
+          <text
+            key={
+              "mark-text-string-" +
+              string.toString() +
+              "_flet-" +
+              flet.toString()
+            }
+            x={32 * flet + 21}
+            y={30 * string + 16}
+            fontSize="12"
+            fill="#FFF"
+            textAnchor="middle"
+            dominantBaseline="central"
+          >
+            {convertNumberToNote(note_num)}
+          </text>
+        );
+      }
+    }
+    return marks;
+  };
 
   return (
     <svg width="518" height="200" viewBox="0 0 518 200">
@@ -108,6 +180,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
       <text x="490" y="195" fontSize="18" fill="#888">
         15
       </text>
+      {markNotes()}
     </svg>
   );
 };
