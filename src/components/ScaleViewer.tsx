@@ -51,9 +51,12 @@ export const ScaleViewer = () => {
     <>
       <div>Scale Viewer</div>
       <div>
-        tuning: {settings.tuning.slice().reverse().map((t) => convertNumberToNote(t) + " ")}
+        tuning:{" "}
+        {settings.tuning
+          .slice()
+          .reverse()
+          .map((t) => convertNumberToNote(t) + " ")}
       </div>
-      <FingerBoard tuning={settings.tuning} chordprops={chord} />
       <button onClick={() => setMode({ mode: "Scale" })}>ScaleMode</button>
       <button onClick={() => setMode({ mode: "Chord" })}>ChordMode</button>
 
@@ -66,7 +69,7 @@ export const ScaleViewer = () => {
       {mode.mode === "Chord" && (
         <div>
           <div>{mode.mode}</div>
-          <select onChange={(e) => handleChangeRoot(e)}>
+          <select style={SelectBoxStyle} onChange={(e) => handleChangeRoot(e)}>
             {[...Array(12)]
               .map((_, i) => convertNumberToNote(i))
               .map((note) => (
@@ -75,19 +78,21 @@ export const ScaleViewer = () => {
                 </option>
               ))}
           </select>
-          <select onChange={(e) => handleChangeChord(e)}>
+          <select style={SelectBoxStyle} onChange={(e) => handleChangeChord(e)}>
             {ChordList.map((chord) => (
               <option value={chord.name} key={chord.name}>
                 {chord.name}
               </option>
             ))}
           </select>
-          <div>
-            {convertNumberToNote(chord.root)}
-            {chord.chord.name}
-          </div>
         </div>
       )}
+
+      <FingerBoard tuning={settings.tuning} chordprops={chord} />
     </>
   );
+};
+
+const SelectBoxStyle: React.CSSProperties = {
+  fontSize: "24px",
 };
