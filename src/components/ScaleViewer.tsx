@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Chord, ChordList } from "./Constants";
+import { Chord, ChordList, Scale, ScaleList } from "./Constants";
 import { convertNumberToNote, convertNoteToNumber } from "./Utils";
 import { FingerBoard } from "./FingerBoard";
 
@@ -16,17 +16,21 @@ type ChordState = {
   chord: Chord;
 };
 
-// type ScaleState = {};
+type ScaleState = {
+  root: number;
+  scale: Scale;
+};
 
 export const ScaleViewer = () => {
   const [mode, setMode] = useState<ModeState>({
     mode: "Scale",
   });
+
   const [chord, setChord] = useState<ChordState>({
     root: 0,
     chord: ChordList[0],
   });
-  const handleChangeRoot = (e: React.FormEvent<HTMLSelectElement>) => {
+  const handleChangeChordRoot = (e: React.FormEvent<HTMLSelectElement>) => {
     setChord({
       root: convertNoteToNumber(e.currentTarget.value),
       chord: chord.chord,
@@ -40,6 +44,27 @@ export const ScaleViewer = () => {
       setChord({
         root: chord.root,
         chord: selected,
+      });
+  };
+
+  const [scale, setScale] = useState<ScaleState>({
+    root: 0,
+    scale: ScaleList[0],
+  });
+  const handleChangeScaleRoot = (e: React.FormEvent<HTMLSelectElement>) => {
+    setScale({
+      root: convertNoteToNumber(e.currentTarget.value),
+      scale: scale.scale,
+    });
+  };
+  const handleChangeScale = (e: React.FormEvent<HTMLSelectElement>) => {
+    let selected = ScaleList.find(
+      (scale) => e.currentTarget.value === scale.name
+    );
+    if (selected !== undefined)
+      setScale({
+        root: chord.root,
+        scale: selected,
       });
   };
 
@@ -63,13 +88,30 @@ export const ScaleViewer = () => {
       {mode.mode === "Scale" && (
         <div>
           <div>{mode.mode}</div>
+          <select style={SelectBoxStyle} onChange={(e) => handleChangeScaleRoot(e)}>
+            {[...Array(12)]
+              .map((_, i) => convertNumberToNote(i))
+              .map((note) => (
+                <option value={note} key={note}>
+                  {note}
+                </option>
+              ))}
+          </select>
+          <select style={SelectBoxStyle} onChange={(e) => handleChangeScale(e)}>
+            {ScaleList.map((scale) => (
+              <option value={scale.name} key={scale.name}>
+                {scale.name}
+              </option>
+            ))}
+          </select>
         </div>
+        
       )}
 
       {mode.mode === "Chord" && (
         <div>
           <div>{mode.mode}</div>
-          <select style={SelectBoxStyle} onChange={(e) => handleChangeRoot(e)}>
+          <select style={SelectBoxStyle} onChange={(e) => handleChangeChordRoot(e)}>
             {[...Array(12)]
               .map((_, i) => convertNumberToNote(i))
               .map((note) => (

@@ -28,3 +28,27 @@ export const ChordList: Chord[] = [
   { name: "add4", interval: [0, 4, 5, 7] },
   { name: "aug7", interval: [0, 4, 8, 10] },
 ];
+
+export type Scale = {
+  name: string;
+  interval: number[];
+};
+
+export const ScaleList: Scale[] = [
+  { name: "Major", interval: [0, 2, 4, 5, 7, 9, 11] },
+  { name: "Natural Minor", interval: [0, 2, 3, 5, 7, 8, 10] },
+  { name: "Harmonic Minor", interval: [0, 2, 3, 5, 7, 8, 11] },
+  { name: "Melodic Minor", interval: [0, 2, 3, 5, 7, 9, 11] },
+  { name: "Ionian", interval: [0, 2, 4, 5, 7, 9, 11] },
+  { name: "Aeolian", interval: [0, 2, 3, 5, 7, 8, 10] },
+  { name: "Dorian", interval: [0, 2, 3, 5, 7, 9, 10] },
+  { name: "Phrygian", interval: [0, 1, 3, 5, 7, 8, 10] },
+  { name: "Lydian", interval: [0, 2, 4, 6, 7, 9, 11] },
+  { name: "Mixolydian", interval: [0, 2, 4, 5, 7, 9, 10] },
+  { name: "Locrian", interval: [0, 1, 3, 5, 6, 8, 10] },
+  { name: "Major Pentatonic", interval: [0, 2, 4, 7, 9] },
+  { name: "Minor Prntatonic", interval: [0, 3, 5, 7, 10] },
+  { name: "Diminished", interval: [0, 2, 3, 5, 6, 8, 9, 11] },
+  { name: "Combination of Diminished", interval: [0, 1, 3, 4, 6, 7, 9, 10] },
+  { name: "Whole Tone", interval: [0, 2, 4, 6, 8, 10] },
+];
