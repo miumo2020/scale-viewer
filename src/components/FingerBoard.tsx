@@ -19,7 +19,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
     for (let flet = 0; flet < 16; flet++) {
       let note_num = (props.tuning[string] + flet) % 12;
       if (
-        props.chordprops.chord.chord.find(
+        props.chordprops.chord.interval.find(
           (c) => (c + props.chordprops.root) % 12 === note_num
         ) !== undefined
       ) {
@@ -34,7 +34,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
   console.log(
     props.chordprops.root,
     props.chordprops.chord.name,
-    props.chordprops.chord.chord
+    props.chordprops.chord.interval
   );
 
   return (
