@@ -44,7 +44,7 @@ export const ScaleViewer = () => {
   };
 
   const [settings] = useState<SettingsState>({
-    tuning: [4, 9, 2, 7, 11, 4],
+    tuning: [4, 11, 7, 2, 9, 4],
   });
 
   return (

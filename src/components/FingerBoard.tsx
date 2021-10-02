@@ -1,5 +1,6 @@
 import React from "react";
 import { Chord } from "./Constants";
+import { convertNumberToNote } from "./Utils";
 
 type ChordProps = {
   root: number;
@@ -12,6 +13,30 @@ type FingerBoardProps = {
 };
 
 export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
+  let boardstate = [];
+  for (let string = 0; string < 6; string++) {
+    let s = [];
+    for (let flet = 0; flet < 16; flet++) {
+      let note_num = (props.tuning[string] + flet) % 12;
+      if (
+        props.chordprops.chord.chord.find(
+          (c) => (c + props.chordprops.root) % 12 === note_num
+        ) !== undefined
+      ) {
+        s.push(convertNumberToNote(note_num));
+      } else {
+        s.push("");
+      }
+    }
+    boardstate.push(s);
+  }
+  console.log(boardstate);
+  console.log(
+    props.chordprops.root,
+    props.chordprops.chord.name,
+    props.chordprops.chord.chord
+  );
+
   return (
     <svg width="518" height="200" viewBox="0 0 518 200">
       <rect x="30" y="15" width="8" height="152" fill="#888"></rect>
