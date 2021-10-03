@@ -69,19 +69,11 @@ export const ScaleViewer = () => {
   return (
     <>
       <div>Scale Viewer</div>
-      <div>
-        tuning:{" "}
-        {settings.tuning
-          .slice()
-          .reverse()
-          .map((t) => convertNumberToNote(t) + " ")}
-      </div>
       <button onClick={() => setMode("Scale")}>ScaleMode</button>
       <button onClick={() => setMode("Chord")}>ChordMode</button>
 
       {mode === "Scale" && (
         <div>
-          <div>{mode}</div>
           <select
             style={SelectBoxStyle}
             onChange={(e) => handleChangeScaleRoot(e)}
@@ -106,7 +98,6 @@ export const ScaleViewer = () => {
 
       {mode === "Chord" && (
         <div>
-          <div>{mode}</div>
           <select
             style={SelectBoxStyle}
             onChange={(e) => handleChangeChordRoot(e)}
