@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Mode, Chord, ChordList, Scale, ScaleList } from "./Constants";
 import { convertNumberToNote, convertNoteToNumber } from "./Utils";
 import { FingerBoard } from "./FingerBoard";
+import { SettingsModal } from "./SettingsModal";
 
 type SettingsState = {
   tuning: number[];
@@ -62,6 +63,7 @@ export const ScaleViewer = () => {
       });
   };
 
+  const [settingsModal, setSettingsModal] = useState(false);
   const [settings] = useState<SettingsState>({
     tuning: [4, 11, 7, 2, 9, 4],
   });
@@ -71,6 +73,9 @@ export const ScaleViewer = () => {
       <div>Scale Viewer</div>
       <button onClick={() => setMode("Scale")}>ScaleMode</button>
       <button onClick={() => setMode("Chord")}>ChordMode</button>
+
+      <button onClick={()=> setSettingsModal(true)}>setting</button>
+      <SettingsModal show={settingsModal} setShow={setSettingsModal}/>
 
       {mode === "Scale" && (
         <div>
