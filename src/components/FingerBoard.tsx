@@ -25,45 +25,20 @@ type Note = {
 };
 
 export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
-  
-  let boardstate: Array<(Note | undefined)[]> = [];
-
+  let markPosition: Array<(Note | undefined)[]> = [];
   if (props.mode === "Scale") {
-    for (let string = 0; string < 6; string++) {
-      let stringstate: (Note | undefined)[] = [];
-      for (let flet = 0; flet < 16; flet++) {
-        let note_num = (props.tuning[string] + flet) % 12;
-        let note_degree = props.scaleprops.scale.interval.find(
-          (c) => (c + props.scaleprops.root) % 12 === note_num
-        );
-        if (note_degree !== undefined) {
-          let note: Note = { num: note_num, degree: note_degree };
-          stringstate.push(note);
-        } else {
-          stringstate.push(undefined);
-        }
-      }
-      boardstate.push(stringstate);
-    }
+    markPosition = createMarkPosition(
+      props.tuning,
+      props.scaleprops.root,
+      props.scaleprops.scale.interval
+    );
   }
-
   if (props.mode === "Chord") {
-    for (let string = 0; string < 6; string++) {
-      let stringstate: (Note | undefined)[] = [];
-      for (let flet = 0; flet < 16; flet++) {
-        let note_num = (props.tuning[string] + flet) % 12;
-        let note_degree = props.chordprops.chord.interval.find(
-          (c) => (c + props.chordprops.root) % 12 === note_num
-        );
-        if (note_degree !== undefined) {
-          let note: Note = { num: note_num, degree: note_degree };
-          stringstate.push(note);
-        } else {
-          stringstate.push(undefined);
-        }
-      }
-      boardstate.push(stringstate);
-    }
+    markPosition = createMarkPosition(
+      props.tuning,
+      props.chordprops.root,
+      props.chordprops.chord.interval
+    );
   }
 
   const markNotes = () => {
@@ -71,7 +46,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
 
     // flet 0 mark
     for (let string = 0; string < 6; string++) {
-      let note_num = boardstate[string][0]?.num;
+      let note_num = markPosition[string][0]?.num;
       if (note_num === undefined) continue;
       marks.push(
         <circle
@@ -100,7 +75,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
     // flet 1 ~ 15 mark
     for (let string = 0; string < 6; string++) {
       for (let flet = 1; flet < 15; flet++) {
-        let note_num = boardstate[string][flet]?.num;
+        let note_num = markPosition[string][flet]?.num;
         if (note_num === undefined) continue;
         marks.push(
           <circle
@@ -215,6 +190,29 @@ export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
       </svg>
     </div>
   );
+};
+
+const createMarkPosition = (
+  tuning: number[],
+  root: number,
+  interval: number[]
+): Array<(Note | undefined)[]> => {
+  let markPosition: Array<(Note | undefined)[]> = [];
+  for (let string = 0; string < 6; string++) {
+    let stringstate: (Note | undefined)[] = [];
+    for (let flet = 0; flet < 16; flet++) {
+      let note_num = (tuning[string] + flet) % 12;
+      let note_degree = interval.find((c) => (c + root) % 12 === note_num);
+      if (note_degree !== undefined) {
+        let note: Note = { num: note_num, degree: note_degree };
+        stringstate.push(note);
+      } else {
+        stringstate.push(undefined);
+      }
+    }
+    markPosition.push(stringstate);
+  }
+  return markPosition;
 };
 
 const FingerBoardStyle: React.CSSProperties = {
