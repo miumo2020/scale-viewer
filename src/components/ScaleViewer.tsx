@@ -1,11 +1,7 @@
 import React, { useState } from "react";
-import { Chord, ChordList, Scale, ScaleList } from "./Constants";
+import { Mode, Chord, ChordList, Scale, ScaleList } from "./Constants";
 import { convertNumberToNote, convertNoteToNumber } from "./Utils";
 import { FingerBoard } from "./FingerBoard";
-
-type ModeState = {
-  mode: "Scale" | "Chord";
-};
 
 type SettingsState = {
   tuning: number[];
@@ -22,9 +18,7 @@ type ScaleState = {
 };
 
 export const ScaleViewer = () => {
-  const [mode, setMode] = useState<ModeState>({
-    mode: "Scale",
-  });
+  const [mode, setMode] = useState<Mode>("Scale");
 
   const [chord, setChord] = useState<ChordState>({
     root: 0,
@@ -82,12 +76,12 @@ export const ScaleViewer = () => {
           .reverse()
           .map((t) => convertNumberToNote(t) + " ")}
       </div>
-      <button onClick={() => setMode({ mode: "Scale" })}>ScaleMode</button>
-      <button onClick={() => setMode({ mode: "Chord" })}>ChordMode</button>
+      <button onClick={() => setMode("Scale")}>ScaleMode</button>
+      <button onClick={() => setMode("Chord")}>ChordMode</button>
 
-      {mode.mode === "Scale" && (
+      {mode === "Scale" && (
         <div>
-          <div>{mode.mode}</div>
+          <div>{mode}</div>
           <select
             style={SelectBoxStyle}
             onChange={(e) => handleChangeScaleRoot(e)}
@@ -110,9 +104,9 @@ export const ScaleViewer = () => {
         </div>
       )}
 
-      {mode.mode === "Chord" && (
+      {mode === "Chord" && (
         <div>
-          <div>{mode.mode}</div>
+          <div>{mode}</div>
           <select
             style={SelectBoxStyle}
             onChange={(e) => handleChangeChordRoot(e)}
@@ -136,7 +130,7 @@ export const ScaleViewer = () => {
       )}
 
       <FingerBoard
-        mode={mode.mode}
+        mode={mode}
         tuning={settings.tuning}
         chordprops={chord}
         scaleprops={scale}

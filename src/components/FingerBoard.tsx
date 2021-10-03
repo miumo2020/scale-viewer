@@ -1,5 +1,5 @@
 import React from "react";
-import { Chord, Scale } from "./Constants";
+import { Mode, Chord, Scale } from "./Constants";
 import { convertNumberToNote } from "./Utils";
 
 type ChordProps = {
@@ -13,7 +13,7 @@ type ScaleProps = {
 };
 
 type FingerBoardProps = {
-  mode: "Scale" | "Chord";
+  mode: Mode;
   tuning: number[];
   chordprops: ChordProps;
   scaleprops: ScaleProps;
