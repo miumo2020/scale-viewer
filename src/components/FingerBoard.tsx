@@ -1,5 +1,5 @@
 import React from "react";
-import { Chord } from "./Constants";
+import { Chord, Scale } from "./Constants";
 import { convertNumberToNote } from "./Utils";
 
 type ChordProps = {
@@ -7,9 +7,16 @@ type ChordProps = {
   chord: Chord;
 };
 
+type ScaleProps = {
+  root: number;
+  scale: Scale;
+};
+
 type FingerBoardProps = {
+  mode: "Scale" | "Chord";
   tuning: number[];
   chordprops: ChordProps;
+  scaleprops: ScaleProps;
 };
 
 type Note = {
@@ -18,22 +25,45 @@ type Note = {
 };
 
 export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
+  
   let boardstate: Array<(Note | undefined)[]> = [];
-  for (let string = 0; string < 6; string++) {
-    let stringstate: (Note | undefined)[] = [];
-    for (let flet = 0; flet < 16; flet++) {
-      let note_num = (props.tuning[string] + flet) % 12;
-      let note_degree = props.chordprops.chord.interval.find(
-        (c) => (c + props.chordprops.root) % 12 === note_num
-      );
-      if (note_degree !== undefined) {
-        let note: Note = { num: note_num, degree: note_degree };
-        stringstate.push(note);
-      } else {
-        stringstate.push(undefined);
+
+  if (props.mode === "Scale") {
+    for (let string = 0; string < 6; string++) {
+      let stringstate: (Note | undefined)[] = [];
+      for (let flet = 0; flet < 16; flet++) {
+        let note_num = (props.tuning[string] + flet) % 12;
+        let note_degree = props.scaleprops.scale.interval.find(
+          (c) => (c + props.scaleprops.root) % 12 === note_num
+        );
+        if (note_degree !== undefined) {
+          let note: Note = { num: note_num, degree: note_degree };
+          stringstate.push(note);
+        } else {
+          stringstate.push(undefined);
+        }
       }
+      boardstate.push(stringstate);
     }
-    boardstate.push(stringstate);
+  }
+
+  if (props.mode === "Chord") {
+    for (let string = 0; string < 6; string++) {
+      let stringstate: (Note | undefined)[] = [];
+      for (let flet = 0; flet < 16; flet++) {
+        let note_num = (props.tuning[string] + flet) % 12;
+        let note_degree = props.chordprops.chord.interval.find(
+          (c) => (c + props.chordprops.root) % 12 === note_num
+        );
+        if (note_degree !== undefined) {
+          let note: Note = { num: note_num, degree: note_degree };
+          stringstate.push(note);
+        } else {
+          stringstate.push(undefined);
+        }
+      }
+      boardstate.push(stringstate);
+    }
   }
 
   const markNotes = () => {

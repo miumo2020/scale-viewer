@@ -88,7 +88,10 @@ export const ScaleViewer = () => {
       {mode.mode === "Scale" && (
         <div>
           <div>{mode.mode}</div>
-          <select style={SelectBoxStyle} onChange={(e) => handleChangeScaleRoot(e)}>
+          <select
+            style={SelectBoxStyle}
+            onChange={(e) => handleChangeScaleRoot(e)}
+          >
             {[...Array(12)]
               .map((_, i) => convertNumberToNote(i))
               .map((note) => (
@@ -105,13 +108,15 @@ export const ScaleViewer = () => {
             ))}
           </select>
         </div>
-        
       )}
 
       {mode.mode === "Chord" && (
         <div>
           <div>{mode.mode}</div>
-          <select style={SelectBoxStyle} onChange={(e) => handleChangeChordRoot(e)}>
+          <select
+            style={SelectBoxStyle}
+            onChange={(e) => handleChangeChordRoot(e)}
+          >
             {[...Array(12)]
               .map((_, i) => convertNumberToNote(i))
               .map((note) => (
@@ -130,7 +135,12 @@ export const ScaleViewer = () => {
         </div>
       )}
 
-      <FingerBoard tuning={settings.tuning} chordprops={chord} />
+      <FingerBoard
+        mode={mode.mode}
+        tuning={settings.tuning}
+        chordprops={chord}
+        scaleprops={scale}
+      />
     </>
   );
 };
