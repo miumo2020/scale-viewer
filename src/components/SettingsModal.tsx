@@ -1,19 +1,43 @@
 import React from "react";
+import { convertNumberToNote } from "./Utils";
 
 type SettingsModalProps = {
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
+  tuning: number[];
+  setTuning: (string: number, move: -1 | 1) => void;
 };
 
-export const SettingsModal: React.FC<SettingsModalProps> = (props) => {
+export const SettingsModal: React.FC<SettingsModalProps> = ({
+  show,
+  setShow,
+  tuning,
+  setTuning,
+}) => {
+  const tunignSetting = () => {
+    let result = [];
+    for (let string = 0; string < tuning.length; string++) {
+      result.push(
+        <div key={"tuning-string-" + string}>
+          <button onClick={() => setTuning(string, -1)}>{"<"}</button>{" "}
+          {convertNumberToNote(tuning[string])}{" "}
+          <button onClick={() => setTuning(string, 1)}>{">"}</button>
+        </div>
+      );
+    }
+    return result;
+  };
+
   return (
     <>
-      {props.show === true && (
+      {show === true && (
         <div style={Overlay}>
           <div style={SettingsWindow}>
             <p>Settings</p>
+            <p>Tuning</p>
+            {tunignSetting()}
             <p>
-              <button onClick={() => props.setShow(false)}>close</button>
+              <button onClick={() => setShow(false)}>close</button>
             </p>
           </div>
         </div>
@@ -39,5 +63,6 @@ const SettingsWindow: React.CSSProperties = {
   zIndex: 20,
   width: "70%",
   padding: "0.5em",
+  borderRadius: "5px",
   backgroundColor: "#FFF",
 };

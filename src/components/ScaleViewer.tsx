@@ -64,9 +64,16 @@ export const ScaleViewer = () => {
   };
 
   const [settingsModal, setSettingsModal] = useState(false);
-  const [settings] = useState<SettingsState>({
+  const [settings, setSettings] = useState<SettingsState>({
     tuning: [4, 11, 7, 2, 9, 4],
   });
+
+  const setTuning = (string: number, move: -1 | 1): void => {
+    let newNote: number = (settings.tuning[string] + move + 12) % 12;
+    let newTuning: number[] = [...settings.tuning];
+    newTuning[string] = newNote;
+    setSettings({ tuning: newTuning });
+  };
 
   return (
     <>
@@ -74,8 +81,13 @@ export const ScaleViewer = () => {
       <button onClick={() => setMode("Scale")}>ScaleMode</button>
       <button onClick={() => setMode("Chord")}>ChordMode</button>
 
-      <button onClick={()=> setSettingsModal(true)}>setting</button>
-      <SettingsModal show={settingsModal} setShow={setSettingsModal}/>
+      <button onClick={() => setSettingsModal(true)}>settings</button>
+      <SettingsModal
+        show={settingsModal}
+        setShow={setSettingsModal}
+        tuning={settings.tuning}
+        setTuning={setTuning}
+      />
 
       {mode === "Scale" && (
         <div>
