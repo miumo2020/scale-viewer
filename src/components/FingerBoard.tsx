@@ -41,20 +41,52 @@ export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
     );
   }
 
+  const getMarkColor = (degree: number): string => {
+    if (props.mode === "Scale") {
+      if (degree === 0) {
+        return "#e74c3c";
+      } else {
+        return "#e77b3c";
+      }
+    } else {
+      if (degree === 0) {
+        return "#e74c3c";
+      } else if (degree === 2) {
+        return "#a366cc";
+      } else if (degree === 3) {
+        return "#4f8be3";
+      } else if (degree === 4) {
+        return "#e6a23c";
+      } else if (degree === 5) {
+        return "#c47693";
+      } else if (degree === 7) {
+        return "#888";
+      } else if (degree === 9) {
+        return "#50875e";
+      } else if (degree === 10) {
+        return "#a5b32e";
+      } else if (degree === 11) {
+        return "#66cca7";
+      } else {
+        return "#888";
+      }
+    }
+  };
+
   const markNotes = () => {
     let marks = [];
 
     // flet 0 mark
     for (let string = 0; string < 6; string++) {
-      let note_num = markPosition[string][0]?.num;
-      if (note_num === undefined) continue;
+      let note = markPosition[string][0];
+      if (note === undefined) continue;
       marks.push(
         <circle
           key={"mark-circle-string-" + string.toString() + "_flet-0"}
           cx="15"
           cy={30 * string + 16}
           r="10"
-          fill="#e74c3c"
+          fill={getMarkColor(note.degree)}
         ></circle>
       );
       marks.push(
@@ -63,11 +95,12 @@ export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
           x="15"
           y={30 * string + 16}
           fontSize="12"
+          fontWeight="bold"
           fill="#FFF"
           textAnchor="middle"
           dominantBaseline="central"
         >
-          {convertNumberToNote(note_num)}
+          {convertNumberToNote(note.num)}
         </text>
       );
     }
@@ -75,8 +108,8 @@ export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
     // flet 1 ~ 15 mark
     for (let string = 0; string < 6; string++) {
       for (let flet = 1; flet < 15; flet++) {
-        let note_num = markPosition[string][flet]?.num;
-        if (note_num === undefined) continue;
+        let note = markPosition[string][flet];
+        if (note === undefined) continue;
         marks.push(
           <circle
             key={
@@ -88,7 +121,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
             cx={32 * flet + 21}
             cy={30 * string + 16}
             r="10"
-            fill="#e74c3c"
+            fill={getMarkColor(note.degree)}
           ></circle>
         );
         marks.push(
@@ -102,11 +135,12 @@ export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
             x={32 * flet + 21}
             y={30 * string + 16}
             fontSize="12"
+            fontWeight="bold"
             fill="#FFF"
             textAnchor="middle"
             dominantBaseline="central"
           >
-            {convertNumberToNote(note_num)}
+            {convertNumberToNote(note.num)}
           </text>
         );
       }

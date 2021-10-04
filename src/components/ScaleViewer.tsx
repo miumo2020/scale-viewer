@@ -58,7 +58,7 @@ export const ScaleViewer = () => {
     );
     if (selected !== undefined)
       setScale({
-        root: chord.root,
+        root: scale.root,
         scale: selected,
       });
   };
