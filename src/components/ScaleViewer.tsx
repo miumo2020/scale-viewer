@@ -94,6 +94,7 @@ export const ScaleViewer = () => {
           <select
             style={SelectBoxStyle}
             onChange={(e) => handleChangeScaleRoot(e)}
+            value={convertNumberToNote(scale.root)}
           >
             {[...Array(12)]
               .map((_, i) => convertNumberToNote(i))
@@ -103,7 +104,11 @@ export const ScaleViewer = () => {
                 </option>
               ))}
           </select>
-          <select style={SelectBoxStyle} onChange={(e) => handleChangeScale(e)}>
+          <select
+            style={SelectBoxStyle}
+            onChange={(e) => handleChangeScale(e)}
+            value={scale.scale.name}
+          >
             {ScaleList.map((scale) => (
               <option value={scale.name} key={scale.name}>
                 {scale.name}
@@ -118,6 +123,7 @@ export const ScaleViewer = () => {
           <select
             style={SelectBoxStyle}
             onChange={(e) => handleChangeChordRoot(e)}
+            value={convertNumberToNote(chord.root)}
           >
             {[...Array(12)]
               .map((_, i) => convertNumberToNote(i))
@@ -127,7 +133,11 @@ export const ScaleViewer = () => {
                 </option>
               ))}
           </select>
-          <select style={SelectBoxStyle} onChange={(e) => handleChangeChord(e)}>
+          <select
+            style={SelectBoxStyle}
+            onChange={(e) => handleChangeChord(e)}
+            value={chord.chord.name}
+          >
             {ChordList.map((chord) => (
               <option value={chord.name} key={chord.name}>
                 {chord.name}
