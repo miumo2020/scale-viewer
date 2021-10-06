@@ -13,6 +13,7 @@ import { SettingsModal } from "./SettingsModal";
 
 type SettingsState = {
   tuning: number[];
+  fletnumber: number;
   accidental: Accidental;
 };
 
@@ -74,6 +75,7 @@ export const ScaleViewer = () => {
   const [settingsModal, setSettingsModal] = useState(false);
   const [settings, setSettings] = useState<SettingsState>({
     tuning: [4, 11, 7, 2, 9, 4],
+    fletnumber: 15,
     accidental: "#",
   });
 
@@ -81,11 +83,19 @@ export const ScaleViewer = () => {
     let newNote: number = (settings.tuning[string] + move + 12) % 12;
     let newTuning: number[] = [...settings.tuning];
     newTuning[string] = newNote;
-    setSettings({ tuning: newTuning, accidental: settings.accidental });
+    setSettings({
+      tuning: newTuning,
+      fletnumber: settings.fletnumber,
+      accidental: settings.accidental,
+    });
   };
 
   const setAccidental = (value: Accidental): void => {
-    setSettings({ tuning: settings.tuning, accidental: value });
+    setSettings({
+      tuning: settings.tuning,
+      fletnumber: settings.fletnumber,
+      accidental: value,
+    });
   };
 
   return (

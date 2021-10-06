@@ -14,6 +14,7 @@ type ScaleProps = {
 
 type SettingsProps = {
   tuning: number[];
+  fletnumber: number;
   accidental: Accidental;
 };
 
@@ -29,11 +30,17 @@ type Note = {
   degree: number; //  0:P1, 1:m2, ... , 11:M7
 };
 
-export const FingerBoard: React.FC<FingerBoardProps> = ({mode, settings, chordprops, scaleprops}) => {
+export const FingerBoard: React.FC<FingerBoardProps> = ({
+  mode,
+  settings,
+  chordprops,
+  scaleprops,
+}) => {
   let markPosition: Array<(Note | undefined)[]> = [];
   if (mode === "Scale") {
     markPosition = createMarkPosition(
       settings.tuning,
+      settings.fletnumber,
       scaleprops.root,
       scaleprops.scale.interval
     );
@@ -41,6 +48,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({mode, settings, chordpr
   if (mode === "Chord") {
     markPosition = createMarkPosition(
       settings.tuning,
+      settings.fletnumber,
       chordprops.root,
       chordprops.chord.interval
     );
@@ -110,9 +118,9 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({mode, settings, chordpr
       );
     }
 
-    // flet 1 ~ 15 mark
+    // flet 1 ~ mark
     for (let string = 0; string < 6; string++) {
-      for (let flet = 1; flet < 15; flet++) {
+      for (let flet = 1; flet < settings.fletnumber; flet++) {
         let note = markPosition[string][flet];
         if (note === undefined) continue;
         marks.push(
@@ -182,22 +190,19 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({mode, settings, chordpr
       <div>{drawTuning()}</div>
       <div style={FingerBoardStyle}>
         <svg width="518" height="200" viewBox="0 0 518 200">
-          <rect x="30" y="15" width="8" height="152" fill="#888"></rect>
-          <rect x="68" y="15" width="2" height=" 152" fill="#888"></rect>
-          <rect x="100" y="15" width="2" height=" 152" fill="#888"></rect>
-          <rect x="132" y="15" width="2" height=" 152" fill="#888"></rect>
-          <rect x="164" y="15" width="2" height=" 152" fill="#888"></rect>
-          <rect x="196" y="15" width="2" height=" 152" fill="#888"></rect>
-          <rect x="228" y="15" width="2" height=" 152" fill="#888"></rect>
-          <rect x="260" y="15" width="2" height=" 152" fill="#888"></rect>
-          <rect x="292" y="15" width="2" height=" 152" fill="#888"></rect>
-          <rect x="324" y="15" width="2" height=" 152" fill="#888"></rect>
-          <rect x="356" y="15" width="2" height=" 152" fill="#888"></rect>
-          <rect x="388" y="15" width="2" height=" 152" fill="#888"></rect>
-          <rect x="420" y="15" width="2" height=" 152" fill="#888"></rect>
-          <rect x="452" y="15" width="2" height=" 152" fill="#888"></rect>
-          <rect x="484" y="15" width="2" height=" 152" fill="#888"></rect>
-          <rect x="516" y="15" width="2" height=" 152" fill="#888"></rect>
+          <rect x="30" y="15" width="8" height="152" fill="#888" />
+          {[...Array(settings.fletnumber)]
+            .map((_, i) => i + 1)
+            .map((flet) => (
+              <rect
+                key={"line-flet-" + flet}
+                x={32 * flet + 36}
+                y="15"
+                width="2"
+                height="152"
+                fill="#888"
+              />
+            ))}
 
           <rect x="30" y="15" width="488" height="2" fill="#888"></rect>
           <rect x="30" y="45" width="488" height="2" fill="#888"></rect>
@@ -209,51 +214,20 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({mode, settings, chordpr
           <text x="11" y="195" fontSize="18" fill="#888">
             0
           </text>
-          <text x="45" y="195" fontSize="18" fill="#888">
-            1
-          </text>
-          <text x="77" y="195" fontSize="18" fill="#888">
-            2
-          </text>
-          <text x="109" y="195" fontSize="18" fill="#888">
-            3
-          </text>
-          <text x="141" y="195" fontSize="18" fill="#888">
-            4
-          </text>
-          <text x="173" y="195" fontSize="18" fill="#888">
-            5
-          </text>
-          <text x="205" y="195" fontSize="18" fill="#888">
-            6
-          </text>
-          <text x="237" y="195" fontSize="18" fill="#888">
-            7
-          </text>
-          <text x="269" y="195" fontSize="18" fill="#888">
-            8
-          </text>
-          <text x="302" y="195" fontSize="18" fill="#888">
-            9
-          </text>
-          <text x="330" y="195" fontSize="18" fill="#888">
-            10
-          </text>
-          <text x="362" y="195" fontSize="18" fill="#888">
-            11
-          </text>
-          <text x="394" y="195" fontSize="18" fill="#888">
-            12
-          </text>
-          <text x="426" y="195" fontSize="18" fill="#888">
-            13
-          </text>
-          <text x="458" y="195" fontSize="18" fill="#888">
-            14
-          </text>
-          <text x="490" y="195" fontSize="18" fill="#888">
-            15
-          </text>
+          {[...Array(settings.fletnumber)]
+            .map((_, i) => i + 1)
+            .map((flet) => (
+              <text
+                key={"text-flet-" + flet}
+                x={32 * flet + 21}
+                y="195"
+                fontSize="18"
+                fill="#888"
+                textAnchor="middle"
+              >
+                {flet}
+              </text>
+            ))}
           {markNotes()}
         </svg>
       </div>
@@ -263,13 +237,14 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({mode, settings, chordpr
 
 const createMarkPosition = (
   tuning: number[],
+  fletcount: number,
   root: number,
   interval: number[]
 ): Array<(Note | undefined)[]> => {
   let markPosition: Array<(Note | undefined)[]> = [];
   for (let string = 0; string < 6; string++) {
     let stringstate: (Note | undefined)[] = [];
-    for (let flet = 0; flet < 16; flet++) {
+    for (let flet = 0; flet <= fletcount; flet++) {
       let note_num = (tuning[string] + flet) % 12;
       let note_degree = interval.find((c) => (c + root) % 12 === note_num);
       if (note_degree !== undefined) {
