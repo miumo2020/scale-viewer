@@ -120,7 +120,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({
 
     // flet 1 ~ mark
     for (let string = 0; string < 6; string++) {
-      for (let flet = 1; flet < settings.fletnumber; flet++) {
+      for (let flet = 1; flet <= settings.fletnumber; flet++) {
         let note = markPosition[string][flet];
         if (note === undefined) continue;
         marks.push(
