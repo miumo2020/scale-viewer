@@ -25,7 +25,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
       result.push(
         <div key={"tuning-string-" + string}>
           <button onClick={() => setTuning(string, -1)}>{"<"}</button>{" "}
-          {convertNumberToNote(tuning[string])}{" "}
+          {convertNumberToNote(tuning[string], accidental)}{" "}
           <button onClick={() => setTuning(string, 1)}>{">"}</button>
         </div>
       );

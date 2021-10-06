@@ -1,5 +1,5 @@
 import React from "react";
-import { Mode, Chord, Scale } from "./Constants";
+import { Mode, Accidental, Chord, Scale } from "./Constants";
 import { convertNumberToNote } from "./Utils";
 
 type ChordProps = {
@@ -15,6 +15,7 @@ type ScaleProps = {
 type FingerBoardProps = {
   mode: Mode;
   tuning: number[];
+  accidental: Accidental;
   chordprops: ChordProps;
   scaleprops: ScaleProps;
 };
@@ -100,7 +101,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
           textAnchor="middle"
           dominantBaseline="central"
         >
-          {convertNumberToNote(note.num)}
+          {convertNumberToNote(note.num, props.accidental)}
         </text>
       );
     }
@@ -140,7 +141,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
             textAnchor="middle"
             dominantBaseline="central"
           >
-            {convertNumberToNote(note.num)}
+            {convertNumberToNote(note.num, props.accidental)}
           </text>
         );
       }
@@ -161,7 +162,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
           textAnchor="middle"
           dominantBaseline="central"
         >
-          {convertNumberToNote(props.tuning[t])}
+          {convertNumberToNote(props.tuning[t], props.accidental)}
         </text>
       );
     }

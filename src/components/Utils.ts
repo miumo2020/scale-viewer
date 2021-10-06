@@ -1,4 +1,21 @@
-const NumberToNote: { [name: number]: string } = {
+import { Accidental } from "./Constants";
+
+const NumberToNoteSharp: { [name: number]: string } = {
+  0: "C",
+  1: "C#",
+  2: "D",
+  3: "D#",
+  4: "E",
+  5: "F",
+  6: "F#",
+  7: "G",
+  8: "G#",
+  9: "A",
+  10: "A#",
+  11: "B",
+};
+
+const NumberToNoteFlat: { [name: number]: string } = {
   0: "C",
   1: "Db",
   2: "D",
@@ -13,11 +30,18 @@ const NumberToNote: { [name: number]: string } = {
   11: "B",
 };
 
-export const convertNumberToNote = (num: number): string => {
+export const convertNumberToNote = (
+  num: number,
+  accidental: Accidental
+): string => {
   if (num >= 12 || 0 > num) {
     return "";
   }
-  return NumberToNote[num];
+  if (accidental === "#") {
+    return NumberToNoteSharp[num];
+  } else {
+    return NumberToNoteFlat[num];
+  }
 };
 
 const NoteToNumber: { [name: string]: number } = {

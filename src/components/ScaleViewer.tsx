@@ -109,10 +109,10 @@ export const ScaleViewer = () => {
           <select
             style={SelectBoxStyle}
             onChange={(e) => handleChangeScaleRoot(e)}
-            value={convertNumberToNote(scale.root)}
+            value={convertNumberToNote(scale.root, settings.accidental)}
           >
             {[...Array(12)]
-              .map((_, i) => convertNumberToNote(i))
+              .map((_, i) => convertNumberToNote(i, settings.accidental))
               .map((note) => (
                 <option value={note} key={note}>
                   {note}
@@ -138,10 +138,10 @@ export const ScaleViewer = () => {
           <select
             style={SelectBoxStyle}
             onChange={(e) => handleChangeChordRoot(e)}
-            value={convertNumberToNote(chord.root)}
+            value={convertNumberToNote(chord.root, settings.accidental)}
           >
             {[...Array(12)]
-              .map((_, i) => convertNumberToNote(i))
+              .map((_, i) => convertNumberToNote(i, settings.accidental))
               .map((note) => (
                 <option value={note} key={note}>
                   {note}
@@ -165,6 +165,7 @@ export const ScaleViewer = () => {
       <FingerBoard
         mode={mode}
         tuning={settings.tuning}
+        accidental={settings.accidental}
         chordprops={chord}
         scaleprops={scale}
       />
