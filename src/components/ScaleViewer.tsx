@@ -164,8 +164,7 @@ export const ScaleViewer = () => {
 
       <FingerBoard
         mode={mode}
-        tuning={settings.tuning}
-        accidental={settings.accidental}
+        settings={settings}
         chordprops={chord}
         scaleprops={scale}
       />

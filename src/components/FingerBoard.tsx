@@ -12,10 +12,14 @@ type ScaleProps = {
   scale: Scale;
 };
 
-type FingerBoardProps = {
-  mode: Mode;
+type SettingsProps = {
   tuning: number[];
   accidental: Accidental;
+};
+
+type FingerBoardProps = {
+  mode: Mode;
+  settings: SettingsProps;
   chordprops: ChordProps;
   scaleprops: ScaleProps;
 };
@@ -25,25 +29,25 @@ type Note = {
   degree: number; //  0:P1, 1:m2, ... , 11:M7
 };
 
-export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
+export const FingerBoard: React.FC<FingerBoardProps> = ({mode, settings, chordprops, scaleprops}) => {
   let markPosition: Array<(Note | undefined)[]> = [];
-  if (props.mode === "Scale") {
+  if (mode === "Scale") {
     markPosition = createMarkPosition(
-      props.tuning,
-      props.scaleprops.root,
-      props.scaleprops.scale.interval
+      settings.tuning,
+      scaleprops.root,
+      scaleprops.scale.interval
     );
   }
-  if (props.mode === "Chord") {
+  if (mode === "Chord") {
     markPosition = createMarkPosition(
-      props.tuning,
-      props.chordprops.root,
-      props.chordprops.chord.interval
+      settings.tuning,
+      chordprops.root,
+      chordprops.chord.interval
     );
   }
 
   const getMarkColor = (degree: number): string => {
-    if (props.mode === "Scale") {
+    if (mode === "Scale") {
       if (degree === 0) {
         return "#e74c3c";
       } else {
@@ -101,7 +105,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
           textAnchor="middle"
           dominantBaseline="central"
         >
-          {convertNumberToNote(note.num, props.accidental)}
+          {convertNumberToNote(note.num, settings.accidental)}
         </text>
       );
     }
@@ -141,7 +145,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
             textAnchor="middle"
             dominantBaseline="central"
           >
-            {convertNumberToNote(note.num, props.accidental)}
+            {convertNumberToNote(note.num, settings.accidental)}
           </text>
         );
       }
@@ -151,7 +155,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
 
   const drawTuning = () => {
     let tuning = [];
-    for (let t = 0; t < props.tuning.length; t++) {
+    for (let t = 0; t < settings.tuning.length; t++) {
       tuning.push(
         <text
           key={"tuning-string-" + t}
@@ -162,7 +166,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = (props) => {
           textAnchor="middle"
           dominantBaseline="central"
         >
-          {convertNumberToNote(props.tuning[t], props.accidental)}
+          {convertNumberToNote(settings.tuning[t], settings.accidental)}
         </text>
       );
     }
