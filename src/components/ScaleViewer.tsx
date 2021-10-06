@@ -1,11 +1,19 @@
 import React, { useState } from "react";
-import { Mode, Chord, ChordList, Scale, ScaleList } from "./Constants";
+import {
+  Mode,
+  Accidental,
+  Chord,
+  ChordList,
+  Scale,
+  ScaleList,
+} from "./Constants";
 import { convertNumberToNote, convertNoteToNumber } from "./Utils";
 import { FingerBoard } from "./FingerBoard";
 import { SettingsModal } from "./SettingsModal";
 
 type SettingsState = {
   tuning: number[];
+  accidental: Accidental;
 };
 
 type ChordState = {
@@ -66,13 +74,18 @@ export const ScaleViewer = () => {
   const [settingsModal, setSettingsModal] = useState(false);
   const [settings, setSettings] = useState<SettingsState>({
     tuning: [4, 11, 7, 2, 9, 4],
+    accidental: "#",
   });
 
   const setTuning = (string: number, move: -1 | 1): void => {
     let newNote: number = (settings.tuning[string] + move + 12) % 12;
     let newTuning: number[] = [...settings.tuning];
     newTuning[string] = newNote;
-    setSettings({ tuning: newTuning });
+    setSettings({ tuning: newTuning, accidental: settings.accidental });
+  };
+
+  const setAccidental = (value: Accidental): void => {
+    setSettings({ tuning: settings.tuning, accidental: value });
   };
 
   return (
@@ -87,6 +100,8 @@ export const ScaleViewer = () => {
         setShow={setSettingsModal}
         tuning={settings.tuning}
         setTuning={setTuning}
+        accidental={settings.accidental}
+        setAccidental={setAccidental}
       />
 
       {mode === "Scale" && (

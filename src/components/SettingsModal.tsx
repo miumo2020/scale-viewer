@@ -1,4 +1,5 @@
 import React from "react";
+import { Accidental } from "./Constants";
 import { convertNumberToNote } from "./Utils";
 
 type SettingsModalProps = {
@@ -6,6 +7,8 @@ type SettingsModalProps = {
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
   tuning: number[];
   setTuning: (string: number, move: -1 | 1) => void;
+  accidental: Accidental;
+  setAccidental: (value: Accidental) => void;
 };
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({
@@ -13,6 +16,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   setShow,
   tuning,
   setTuning,
+  accidental,
+  setAccidental,
 }) => {
   const tunignSetting = () => {
     let result = [];
@@ -28,12 +33,41 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     return result;
   };
 
+  const onChangeAccidental = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setAccidental(e.currentTarget.value as Accidental);
+  };
+
+  const accidentalSetting = () => {
+    return (
+      <>
+        <input
+          type="radio"
+          name="accidental"
+          value="#"
+          checked={accidental === "#"}
+          onChange={onChangeAccidental}
+        />
+        #(Sharp)
+        <input
+          type="radio"
+          name="accidental"
+          value="b"
+          checked={accidental === "b"}
+          onChange={onChangeAccidental}
+        />
+        b(Flat)
+      </>
+    );
+  };
+
   return (
     <>
       {show === true && (
         <div style={Overlay}>
           <div style={SettingsWindow}>
             <p>Settings</p>
+            <p>Accidental</p>
+            {accidentalSetting()}
             <p>Tuning</p>
             {tunignSetting()}
             <p>

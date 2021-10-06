@@ -1,5 +1,7 @@
 export type Mode = "Scale" | "Chord";
 
+export type Accidental = "#" | "b";
+
 export type Chord = {
   name: string;
   interval: number[];
