@@ -30,12 +30,27 @@ type Note = {
   degree: number; //  0:P1, 1:m2, ... , 11:M7
 };
 
+const FONT_SIZE: number = 14;
+const FONT_SIZE_TUNING: number = 20;
+const FONT_SIZE_FLET_NUM: number = 20;
+const MARGIN_X: number = 3;
+const FLET_LINE_WIDTH: number = 2;
+const NAT_WIDTH: number = 10;
+const MARK_R: number = FONT_SIZE - 2;
+const FLET_START_WIDTH: number = MARK_R * 2 + MARGIN_X * 2 + NAT_WIDTH;
+const FLET_WIDTH: number = MARK_R * 2 + MARGIN_X * 2 + FLET_LINE_WIDTH;
+
 export const FingerBoard: React.FC<FingerBoardProps> = ({
   mode,
   settings,
   chordprops,
   scaleprops,
 }) => {
+  const FINGER_BOARD_WIDTH: number =
+    FLET_START_WIDTH + FLET_WIDTH * (settings.fletnumber + 1);
+  const STRING_LENGTH: number =
+    FLET_LINE_WIDTH + FLET_WIDTH * settings.fletnumber;
+
   let markPosition: Array<(Note | undefined)[]> = [];
   if (mode === "Scale") {
     markPosition = createMarkPosition(
@@ -96,18 +111,18 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({
       marks.push(
         <circle
           key={"mark-circle-string-" + string.toString() + "_flet-0"}
-          cx="15"
+          cx={MARK_R + MARGIN_X}
           cy={30 * string + 16}
-          r="10"
+          r={MARK_R}
           fill={getMarkColor(note.degree)}
         ></circle>
       );
       marks.push(
         <text
           key={"mark-text-string-" + string.toString() + "_flet-0"}
-          x="15"
+          x={MARK_R + MARGIN_X}
           y={30 * string + 16}
-          fontSize="12"
+          fontSize={FONT_SIZE}
           fontWeight="bold"
           fill="#FFF"
           textAnchor="middle"
@@ -131,9 +146,13 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({
               "_flet-" +
               flet.toString()
             }
-            cx={32 * flet + 21}
+            cx={
+              FLET_START_WIDTH +
+              FLET_WIDTH * (flet - 1) +
+              (FLET_LINE_WIDTH + MARGIN_X + MARK_R)
+            }
             cy={30 * string + 16}
-            r="10"
+            r={MARK_R}
             fill={getMarkColor(note.degree)}
           ></circle>
         );
@@ -145,9 +164,13 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({
               "_flet-" +
               flet.toString()
             }
-            x={32 * flet + 21}
+            x={
+              FLET_START_WIDTH +
+              FLET_WIDTH * (flet - 1) +
+              (FLET_LINE_WIDTH + MARGIN_X + MARK_R)
+            }
             y={30 * string + 16}
-            fontSize="12"
+            fontSize={FONT_SIZE}
             fontWeight="bold"
             fill="#FFF"
             textAnchor="middle"
@@ -169,7 +192,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({
           key={"tuning-string-" + t}
           x="10"
           y={30 * t + 15}
-          fontSize="18"
+          fontSize={FONT_SIZE_TUNING}
           fill="#888"
           textAnchor="middle"
           dominantBaseline="central"
@@ -189,29 +212,81 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({
     <div style={FlexWrapper}>
       <div>{drawTuning()}</div>
       <div style={FingerBoardStyle}>
-        <svg width="518" height="200" viewBox="0 0 518 200">
-          <rect x="30" y="15" width="8" height="152" fill="#888" />
-          {[...Array(settings.fletnumber)]
-            .map((_, i) => i + 1)
+        <svg
+          width={FINGER_BOARD_WIDTH}
+          height="200"
+          viewBox={"0 0 " + FINGER_BOARD_WIDTH + " 200"}
+        >
+          <rect
+            x={MARK_R * 2 + MARGIN_X * 2}
+            y="15"
+            width={NAT_WIDTH}
+            height="152"
+            fill="#888"
+          />
+          {[...Array(settings.fletnumber + 1)]
+            .map((_, i) => i)
             .map((flet) => (
               <rect
                 key={"line-flet-" + flet}
-                x={32 * flet + 36}
+                x={FLET_WIDTH * flet + FLET_START_WIDTH}
                 y="15"
-                width="2"
+                width={FLET_LINE_WIDTH}
                 height="152"
                 fill="#888"
               />
             ))}
 
-          <rect x="30" y="15" width="488" height="2" fill="#888"></rect>
-          <rect x="30" y="45" width="488" height="2" fill="#888"></rect>
-          <rect x="30" y="75" width="488" height="2" fill="#888"></rect>
-          <rect x="30" y="105" width="488" height="2" fill="#888"></rect>
-          <rect x="30" y="135" width="488" height="2" fill="#888"></rect>
-          <rect x="30" y="165" width="488" height="2" fill="#888"></rect>
+          <rect
+            x={FLET_START_WIDTH}
+            y="15"
+            width={STRING_LENGTH}
+            height="2"
+            fill="#888"
+          ></rect>
+          <rect
+            x={FLET_START_WIDTH}
+            y="45"
+            width={STRING_LENGTH}
+            height="2"
+            fill="#888"
+          ></rect>
+          <rect
+            x={FLET_START_WIDTH}
+            y="75"
+            width={STRING_LENGTH}
+            height="2"
+            fill="#888"
+          ></rect>
+          <rect
+            x={FLET_START_WIDTH}
+            y="105"
+            width={STRING_LENGTH}
+            height="2"
+            fill="#888"
+          ></rect>
+          <rect
+            x={FLET_START_WIDTH}
+            y="135"
+            width={STRING_LENGTH}
+            height="2"
+            fill="#888"
+          ></rect>
+          <rect
+            x={FLET_START_WIDTH}
+            y="165"
+            width={STRING_LENGTH}
+            height="2"
+            fill="#888"
+          ></rect>
 
-          <text x="11" y="195" fontSize="18" fill="#888">
+          <text
+            x={MARGIN_X + MARK_R}
+            y="195"
+            fontSize="18"
+            fill="#888"
+            textAnchor="middle"
+          >
             0
           </text>
           {[...Array(settings.fletnumber)]
@@ -219,9 +294,13 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({
             .map((flet) => (
               <text
                 key={"text-flet-" + flet}
-                x={32 * flet + 21}
+                x={
+                  FLET_START_WIDTH +
+                  FLET_WIDTH * (flet - 1) +
+                  (FLET_LINE_WIDTH + MARGIN_X + MARK_R)
+                }
                 y="195"
-                fontSize="18"
+                fontSize={FONT_SIZE_FLET_NUM}
                 fill="#888"
                 textAnchor="middle"
               >
