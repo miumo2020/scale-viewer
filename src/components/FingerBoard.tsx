@@ -34,11 +34,15 @@ const FONT_SIZE: number = 14;
 const FONT_SIZE_TUNING: number = 20;
 const FONT_SIZE_FLET_NUM: number = 20;
 const MARGIN_X: number = 3;
+const MARGIN_Y: number = 3;
 const FLET_LINE_WIDTH: number = 2;
+const STRING_LINE_WIDTH: number = 2;
 const NAT_WIDTH: number = 10;
 const MARK_R: number = FONT_SIZE - 2;
 const FLET_START_WIDTH: number = MARK_R * 2 + MARGIN_X * 2 + NAT_WIDTH;
 const FLET_WIDTH: number = MARK_R * 2 + MARGIN_X * 2 + FLET_LINE_WIDTH;
+const BOARD_HEIGHT_PADDING: number = MARK_R + MARGIN_Y;
+const STRING_AREA_HEIGHT: number = MARK_R * 2 + MARGIN_Y * 2;
 
 export const FingerBoard: React.FC<FingerBoardProps> = ({
   mode,
@@ -50,6 +54,14 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({
     FLET_START_WIDTH + FLET_WIDTH * (settings.fletnumber + 1);
   const STRING_LENGTH: number =
     FLET_LINE_WIDTH + FLET_WIDTH * settings.fletnumber;
+  const FLET_LENGTH: number =
+    STRING_AREA_HEIGHT * (settings.tuning.length - 1) + STRING_LINE_WIDTH;
+  const FLET_NUM_TEXT_POS_Y: number =
+    STRING_AREA_HEIGHT * (settings.tuning.length - 1) +
+    BOARD_HEIGHT_PADDING * 2 +
+    FONT_SIZE_FLET_NUM;
+  const FINGER_BOARD_HEIGHT: number =
+    FLET_NUM_TEXT_POS_Y + FONT_SIZE_FLET_NUM / 2;
 
   let markPosition: Array<(Note | undefined)[]> = [];
   if (mode === "Scale") {
@@ -112,7 +124,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({
         <circle
           key={"mark-circle-string-" + string.toString() + "_flet-0"}
           cx={MARK_R + MARGIN_X}
-          cy={30 * string + 16}
+          cy={BOARD_HEIGHT_PADDING + STRING_AREA_HEIGHT * string}
           r={MARK_R}
           fill={getMarkColor(note.degree)}
         ></circle>
@@ -121,7 +133,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({
         <text
           key={"mark-text-string-" + string.toString() + "_flet-0"}
           x={MARK_R + MARGIN_X}
-          y={30 * string + 16}
+          y={BOARD_HEIGHT_PADDING + STRING_AREA_HEIGHT * string}
           fontSize={FONT_SIZE}
           fontWeight="bold"
           fill="#FFF"
@@ -151,7 +163,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({
               FLET_WIDTH * (flet - 1) +
               (FLET_LINE_WIDTH + MARGIN_X + MARK_R)
             }
-            cy={30 * string + 16}
+            cy={BOARD_HEIGHT_PADDING + STRING_AREA_HEIGHT * string}
             r={MARK_R}
             fill={getMarkColor(note.degree)}
           ></circle>
@@ -169,7 +181,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({
               FLET_WIDTH * (flet - 1) +
               (FLET_LINE_WIDTH + MARGIN_X + MARK_R)
             }
-            y={30 * string + 16}
+            y={BOARD_HEIGHT_PADDING + STRING_AREA_HEIGHT * string}
             fontSize={FONT_SIZE}
             fontWeight="bold"
             fill="#FFF"
@@ -191,7 +203,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({
         <text
           key={"tuning-string-" + t}
           x="10"
-          y={30 * t + 15}
+          y={BOARD_HEIGHT_PADDING + STRING_AREA_HEIGHT * t}
           fontSize={FONT_SIZE_TUNING}
           fill="#888"
           textAnchor="middle"
@@ -202,7 +214,11 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({
       );
     }
     return (
-      <svg width="20" height="200" viewBox="0 0 20 200">
+      <svg
+        width="20"
+        height={FINGER_BOARD_HEIGHT}
+        viewBox={"0 0 20 " + FINGER_BOARD_HEIGHT}
+      >
         {tuning}
       </svg>
     );
@@ -214,14 +230,14 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({
       <div style={FingerBoardStyle}>
         <svg
           width={FINGER_BOARD_WIDTH}
-          height="200"
-          viewBox={"0 0 " + FINGER_BOARD_WIDTH + " 200"}
+          height={FINGER_BOARD_HEIGHT}
+          viewBox={"0 0 " + FINGER_BOARD_WIDTH + " " + FINGER_BOARD_HEIGHT}
         >
           <rect
             x={MARK_R * 2 + MARGIN_X * 2}
-            y="15"
+            y={BOARD_HEIGHT_PADDING}
             width={NAT_WIDTH}
-            height="152"
+            height={FLET_LENGTH}
             fill="#888"
           />
           {[...Array(settings.fletnumber + 1)]
@@ -230,60 +246,28 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({
               <rect
                 key={"line-flet-" + flet}
                 x={FLET_WIDTH * flet + FLET_START_WIDTH}
-                y="15"
+                y={BOARD_HEIGHT_PADDING}
                 width={FLET_LINE_WIDTH}
-                height="152"
+                height={FLET_LENGTH}
                 fill="#888"
               />
             ))}
-
-          <rect
-            x={FLET_START_WIDTH}
-            y="15"
-            width={STRING_LENGTH}
-            height="2"
-            fill="#888"
-          ></rect>
-          <rect
-            x={FLET_START_WIDTH}
-            y="45"
-            width={STRING_LENGTH}
-            height="2"
-            fill="#888"
-          ></rect>
-          <rect
-            x={FLET_START_WIDTH}
-            y="75"
-            width={STRING_LENGTH}
-            height="2"
-            fill="#888"
-          ></rect>
-          <rect
-            x={FLET_START_WIDTH}
-            y="105"
-            width={STRING_LENGTH}
-            height="2"
-            fill="#888"
-          ></rect>
-          <rect
-            x={FLET_START_WIDTH}
-            y="135"
-            width={STRING_LENGTH}
-            height="2"
-            fill="#888"
-          ></rect>
-          <rect
-            x={FLET_START_WIDTH}
-            y="165"
-            width={STRING_LENGTH}
-            height="2"
-            fill="#888"
-          ></rect>
-
+          {[...Array(settings.tuning.length)]
+            .map((_, i) => i)
+            .map((string) => (
+              <rect
+                key={"line-string-" + string}
+                x={FLET_START_WIDTH}
+                y={BOARD_HEIGHT_PADDING + STRING_AREA_HEIGHT * string}
+                width={STRING_LENGTH}
+                height={STRING_LINE_WIDTH}
+                fill="#888"
+              />
+            ))}
           <text
             x={MARGIN_X + MARK_R}
-            y="195"
-            fontSize="18"
+            y={FLET_NUM_TEXT_POS_Y}
+            fontSize={FONT_SIZE_FLET_NUM}
             fill="#888"
             textAnchor="middle"
           >
@@ -299,7 +283,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({
                   FLET_WIDTH * (flet - 1) +
                   (FLET_LINE_WIDTH + MARGIN_X + MARK_R)
                 }
-                y="195"
+                y={FLET_NUM_TEXT_POS_Y}
                 fontSize={FONT_SIZE_FLET_NUM}
                 fill="#888"
                 textAnchor="middle"

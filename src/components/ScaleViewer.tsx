@@ -75,7 +75,7 @@ export const ScaleViewer = () => {
   const [settingsModal, setSettingsModal] = useState(false);
   const [settings, setSettings] = useState<SettingsState>({
     tuning: [4, 11, 7, 2, 9, 4],
-    fletnumber: 15,
+    fletnumber: 21,
     accidental: "#",
   });
 
