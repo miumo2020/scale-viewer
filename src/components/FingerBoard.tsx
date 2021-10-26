@@ -202,7 +202,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({
       tuning.push(
         <text
           key={"tuning-string-" + t}
-          x="10"
+          x="15"
           y={BOARD_HEIGHT_PADDING + STRING_AREA_HEIGHT * t}
           fontSize={FONT_SIZE_TUNING}
           fill="#888"
@@ -215,9 +215,9 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({
     }
     return (
       <svg
-        width="20"
+        width="30"
         height={FINGER_BOARD_HEIGHT}
-        viewBox={"0 0 20 " + FINGER_BOARD_HEIGHT}
+        viewBox={"0 0 30 " + FINGER_BOARD_HEIGHT}
       >
         {tuning}
       </svg>
