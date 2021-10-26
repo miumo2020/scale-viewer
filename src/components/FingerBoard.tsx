@@ -86,7 +86,7 @@ export const FingerBoard: React.FC<FingerBoardProps> = ({
       if (degree === 0) {
         return "#e74c3c";
       } else {
-        return "#e77b3c";
+        return "#888";
       }
     } else {
       if (degree === 0) {
