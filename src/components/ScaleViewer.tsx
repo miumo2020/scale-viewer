@@ -8,7 +8,7 @@ import {
   ScaleList,
 } from "./Constants";
 import { convertNumberToNote, convertNoteToNumber } from "./Utils";
-import { RadioButton } from "./RadioButton";
+import { ToggleButton } from "./ToggleButton";
 import { FingerBoard } from "./FingerBoard";
 import { SettingsModal } from "./SettingsModal";
 
@@ -105,7 +105,7 @@ export const ScaleViewer = () => {
       <button onClick={() => setMode("Scale")}>ScaleMode</button>
       <button onClick={() => setMode("Chord")}>ChordMode</button>
 
-      <RadioButton labels={["Test1", "Test2", "Test3"]}/>
+      <ToggleButton labels={["Test1", "Test2", "Test3"]}/>
 
       <button onClick={() => setSettingsModal(true)}>settings</button>
       <SettingsModal

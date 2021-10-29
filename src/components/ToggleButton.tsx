@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
-type RadioButtonProps = {
+type ToggleButtonProps = {
   labels: string[];
 };
 
-export const RadioButton: React.FC<RadioButtonProps> = ({ labels }) => {
+export const ToggleButton: React.FC<ToggleButtonProps> = ({ labels }) => {
   const [value, setValue] = useState<number>(0);
 
   const onClick = (num: number) => {
