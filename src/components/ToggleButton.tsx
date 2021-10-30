@@ -12,11 +12,16 @@ export const ToggleButton: React.FC<ToggleButtonProps> = ({ labels }) => {
   };
 
   const getLabelStyle = (num: number) => {
+    let style: React.CSSProperties = DefaultButtonStyle;
     if (num === value) {
-      return LabelCheckedStyle;
-    } else {
-      return LabelStyle;
+      style = { ...style, ...CheckedButtonStyle };
     }
+    if (num === 0) {
+      style = { ...style, ...FirstButtonStyle };
+    } else if (num === labels.length - 1) {
+      style = { ...style, ...LastButtonStyle };
+    }
+    return style;
   };
 
   return (
@@ -38,7 +43,7 @@ export const ToggleButton: React.FC<ToggleButtonProps> = ({ labels }) => {
   );
 };
 
-const LabelStyle: React.CSSProperties = {
+const DefaultButtonStyle: React.CSSProperties = {
   display: "block",
   float: "left",
   cursor: "pointer",
@@ -54,18 +59,16 @@ const LabelStyle: React.CSSProperties = {
   transition: ".2s",
 };
 
-const LabelCheckedStyle: React.CSSProperties = {
-  display: "block",
-  float: "left",
-  cursor: "pointer",
-  width: 80,
-  margin: 0,
-  padding: "12px 5px",
-  borderRight: "1px solid #abb2b7",
+const CheckedButtonStyle: React.CSSProperties = {
   backgroundColor: "#a1b91d",
   color: "#fff",
-  fontSize: "14px",
-  textAlign: "center",
-  lineHeight: "1",
-  transition: ".2s",
+};
+
+const FirstButtonStyle: React.CSSProperties = {
+  borderRadius: "3px 0 0 3px",
+};
+
+const LastButtonStyle: React.CSSProperties = {
+  borderRadius: "0 3px 3px 0",
+  borderRight: "0px",
 };
