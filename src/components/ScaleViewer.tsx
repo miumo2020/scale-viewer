@@ -101,11 +101,15 @@ export const ScaleViewer = () => {
 
   return (
     <>
-      <div>Scale Viewer</div>
+      <div style={HeaderStyle}>
+        <div style={TitleStyle}>Scale Viewer</div>
+        <div style={ModeSelectStyle}>
+          <ToggleButton labels={["ScaleMode", "ChordMode"]} />
+        </div>
+      </div>
+
       <button onClick={() => setMode("Scale")}>ScaleMode</button>
       <button onClick={() => setMode("Chord")}>ChordMode</button>
-
-      <ToggleButton labels={["Test1", "Test2", "Test3"]}/>
 
       <button onClick={() => setSettingsModal(true)}>settings</button>
       <SettingsModal
@@ -183,6 +187,25 @@ export const ScaleViewer = () => {
       />
     </>
   );
+};
+
+const HeaderStyle: React.CSSProperties = {
+  display: "flex",
+  flexWrap: "wrap",
+  width: "100%",
+  padding: "10px 0 10px 0",
+  justifyContent: "space-around",
+  backgroundColor: "#888",
+};
+
+const TitleStyle: React.CSSProperties = {
+  color: "#FFF",
+};
+
+const ModeSelectStyle: React.CSSProperties = {
+  // display: "flex",
+  // justifyContent: "flex-end",
+  // float: "right",
 };
 
 const SelectBoxStyle: React.CSSProperties = {

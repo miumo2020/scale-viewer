@@ -25,7 +25,7 @@ export const ToggleButton: React.FC<ToggleButtonProps> = ({ labels }) => {
   };
 
   return (
-    <div>
+    <div style={ToggleButtonStyle}>
       {labels.map((label, i) => {
         return (
           <div
@@ -43,32 +43,37 @@ export const ToggleButton: React.FC<ToggleButtonProps> = ({ labels }) => {
   );
 };
 
+const ToggleButtonStyle: React.CSSProperties = {
+  display: "flex",
+};
+
 const DefaultButtonStyle: React.CSSProperties = {
   display: "block",
   float: "left",
   cursor: "pointer",
-  width: 80,
+  // width: 80,
   margin: 0,
+  marginLeft: "-1px",
   padding: "12px 5px",
-  borderRight: "1px solid #abb2b7",
-  backgroundColor: "#bdc3c7",
-  color: "#555e64",
-  fontSize: "14px",
+  border: "solid 1px #aaa",
+  backgroundColor: "#fff",
+  color: "#aaa",
+  fontSize: "20px",
   textAlign: "center",
   lineHeight: "1",
   transition: ".2s",
 };
 
 const CheckedButtonStyle: React.CSSProperties = {
-  backgroundColor: "#a1b91d",
-  color: "#fff",
+  backgroundColor: "#F2F6FC",
+  border: "solid 1px #497EDB",
+  color: "#497EDB",
 };
 
 const FirstButtonStyle: React.CSSProperties = {
-  borderRadius: "3px 0 0 3px",
+  borderRadius: "20px 0 0 20px",
 };
 
 const LastButtonStyle: React.CSSProperties = {
-  borderRadius: "0 3px 3px 0",
-  borderRight: "0px",
+  borderRadius: "0 20px 20px 0",
 };
