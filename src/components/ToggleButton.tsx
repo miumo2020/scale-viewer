@@ -1,10 +1,15 @@
 import React, { useState } from "react";
+import { Mode } from "./Constants";
 
 type ToggleButtonProps = {
   labels: string[];
+  setMode: React.Dispatch<React.SetStateAction<Mode>>;
 };
 
-export const ToggleButton: React.FC<ToggleButtonProps> = ({ labels }) => {
+export const ToggleButton: React.FC<ToggleButtonProps> = ({
+  labels,
+  setMode,
+}) => {
   const [value, setValue] = useState<number>(0);
 
   const onClick = (num: number) => {
@@ -33,6 +38,7 @@ export const ToggleButton: React.FC<ToggleButtonProps> = ({ labels }) => {
             style={getLabelStyle(i)}
             onClick={() => {
               onClick(i);
+              setMode(label as Mode);
             }}
           >
             {label}

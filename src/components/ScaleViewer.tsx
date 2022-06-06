@@ -104,7 +104,10 @@ export const ScaleViewer = () => {
       <div style={HeaderStyle}>
         <div style={TitleStyle}>Scale Viewer</div>
         <div style={ModeSelectStyle}>
-          <ToggleButton labels={["ScaleMode", "ChordMode"]} />
+          <ToggleButton
+            labels={["Scale", "Chord"]}
+            setMode={setMode}
+          />
         </div>
       </div>
 
