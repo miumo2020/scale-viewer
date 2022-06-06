@@ -111,9 +111,6 @@ export const ScaleViewer = () => {
         </div>
       </div>
 
-      <button onClick={() => setMode("Scale")}>ScaleMode</button>
-      <button onClick={() => setMode("Chord")}>ChordMode</button>
-
       <button onClick={() => setSettingsModal(true)}>settings</button>
       <SettingsModal
         show={settingsModal}

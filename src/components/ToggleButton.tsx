@@ -57,7 +57,7 @@ const DefaultButtonStyle: React.CSSProperties = {
   display: "block",
   float: "left",
   cursor: "pointer",
-  // width: 80,
+  width: 80,
   margin: 0,
   marginLeft: "-1px",
   padding: "12px 5px",
@@ -77,9 +77,9 @@ const CheckedButtonStyle: React.CSSProperties = {
 };
 
 const FirstButtonStyle: React.CSSProperties = {
-  borderRadius: "20px 0 0 20px",
+  borderRadius: "10px 0 0 10px",
 };
 
 const LastButtonStyle: React.CSSProperties = {
-  borderRadius: "0 20px 20px 0",
+  borderRadius: "0 10px 10px 0",
 };
