@@ -12,6 +12,8 @@ import { ToggleButton } from "./ToggleButton";
 import { FingerBoard } from "./FingerBoard";
 import { SettingsModal } from "./SettingsModal";
 
+import { SettingsIcon } from "./icons/settings-icon";
+
 type SettingsState = {
   tuning: number[];
   fletnumber: number;
@@ -104,14 +106,17 @@ export const ScaleViewer = () => {
       <div style={HeaderStyle}>
         <div style={TitleStyle}>Scale Viewer</div>
         <div style={ModeSelectStyle}>
-          <ToggleButton
-            labels={["Scale", "Chord"]}
-            setMode={setMode}
-          />
+          <ToggleButton labels={["Scale", "Chord"]} setMode={setMode} />
+        </div>
+        <div onClick={() => setSettingsModal(true)}>
+          <SettingsIcon
+            width={"24px"}
+            height={"24px"}
+            color={"white"}
+          ></SettingsIcon>
         </div>
       </div>
 
-      <button onClick={() => setSettingsModal(true)}>settings</button>
       <SettingsModal
         show={settingsModal}
         setShow={setSettingsModal}
